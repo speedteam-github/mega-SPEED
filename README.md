@@ -1,10 +1,12 @@
 [SPEED TEAM](https://telegram.me/speed_tg_ch)
 [SILVER TEAM](https://telegram.me/silver_team)
+
+
 برای نصب سورس مراحل زیر را انجام دهید
 
 
 
-مراحل زیر را به ترتیب در ترمینال وارد کنید
+کد زیر را به ترتیب در ترمینال وارد کنید
 
 1- sudo apt-get update
 
