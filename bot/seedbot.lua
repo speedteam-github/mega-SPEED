@@ -228,6 +228,12 @@ function create_config( )
     "invite",
     "all",
     "leave_ban",
+    "expire",
+    "saveplug",
+    "plugins",
+    "sendplug",
+    "setsudo",
+    "rmsg",
 	"supergroup",
 	"whitelist",
 	"msg_checks"
