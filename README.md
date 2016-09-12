@@ -14,9 +14,9 @@
 
 3- sudo apt-get install libreadline-dev libconfig-dev libssl-dev lua5.2 liblua5.2-dev libevent-dev make unzip git redis-server g++ libjansson-dev libpython-dev expat libexpat1-dev tmux subversion
 
-4- git clone https://github.com/Makhofgithub/SPPED.git -b supergroups
+4- git clone https://github.com/Makhofgithub/SPEED.git -b supergroups
 
-5- cd SPPED
+5- cd SPEED
 
 6- ./launch.sh install
 
