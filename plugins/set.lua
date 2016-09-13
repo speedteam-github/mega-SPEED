@@ -8,7 +8,7 @@ local function save_value(msg, name, value)
   end
   if hash then
     redis:hset(hash, name, value)
-    return "Saved "..name
+    return "Saved.  "..name
   end
 end
 local function run(msg, matches)
