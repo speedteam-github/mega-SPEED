@@ -25,24 +25,24 @@ local function list_all_plugins(only_enabled)
   local text = '' 
   local nsum = 0 
   for k, v in pairs( plugins_names( )) do 
-    --  ✅ enabled, ⛔️ disabled 
-    local status = '⛔️' 
+    --  ✔ enabled, ❌ disabled 
+    local status = '❌' 
     nsum = nsum+1 
     nact = 0 
     -- Check if is enabled 
     for k2, v2 in pairs(_config.enabled_plugins) do 
       if v == v2..'.lua' then 
-        status = '✅' 
+        status = '✔' 
       end 
       nact = nact+1 
     end 
-    if not only_enabled or status == '✅' then 
+    if not only_enabled or status == '✔' then 
       -- get the name 
       v = string.match (v, "(.*)%.lua") 
       text = text..nsum..'. '..v..'  '..status..'\n' 
     end 
   end 
-  local text = text..'\nThere are '..nsum..' plugins installed.\n'..nact..' plugins enabled and '..nsum-nact..' disabled' 
+  local text = text..'\n '..nsum..' پلاگین نصب\n'..nact..' پلاگین فعال و '..nsum-nact..'غیرفعال است' 
   return text 
 end 
 
@@ -50,24 +50,24 @@ local function list_plugins(only_enabled)
   local text = '' 
   local nsum = 0 
   for k, v in pairs( plugins_names( )) do 
-    --  ✅ enabled, ⛔️ disabled 
-    local status = '⛔️' 
+    --  ✔ enabled, ❌ disabled 
+    local status = '❌' 
     nsum = nsum+1 
     nact = 0 
     -- Check if is enabled 
     for k2, v2 in pairs(_config.enabled_plugins) do 
       if v == v2..'.lua' then 
-        status = '✅' 
+        status = '✔' 
       end 
       nact = nact+1 
     end 
-    if not only_enabled or status == '✅' then 
+    if not only_enabled or status == '✔' then 
       -- get the name 
       v = string.match (v, "(.*)%.lua") 
       text = text..v..'  '..status..'\n' 
     end 
   end 
-  local text = text..'\n'..nact..' plugins enabled from '..nsum..' plugins installed.' 
+  local text = text..'\n'..nact..' پلاگین فعال از '..nsum..'پلاگین موجود در سرور.' 
   return text 
 end 
 
@@ -81,7 +81,7 @@ local function enable_plugin( plugin_name )
   print('checking if '..plugin_name..' exists') 
   -- Check if plugin is enabled 
   if plugin_enabled(plugin_name) then 
-    return 'Plugin '..plugin_name..' is enabled' 
+    return 'پلاگین '..plugin_name..' فعال شد' 
   end 
   -- Checks if plugin exists 
   if plugin_exists(plugin_name) then 
@@ -92,19 +92,19 @@ local function enable_plugin( plugin_name )
     -- Reload the plugins 
     return reload_plugins( ) 
   else 
-    return 'Plugin '..plugin_name..' does not exists' 
+    return 'پلاگین '..plugin_name..'یافت نشد' 
   end 
 end 
 
 local function disable_plugin( name, chat ) 
   -- Check if plugins exists 
   if not plugin_exists(name) then 
-    return 'Plugin '..name..' does not exists' 
+    return 'پلاگین '..name..'یافت نشد' 
   end 
   local k = plugin_enabled(name) 
   -- Check if plugin is enabled 
   if not k then 
-    return 'Plugin '..name..' not enabled' 
+    return 'پلاگین '..name..' غیرفعال است' 
   end 
   -- Disable and reload 
   table.remove(_config.enabled_plugins, k) 
@@ -114,7 +114,7 @@ end
 
 local function disable_plugin_on_chat(receiver, plugin) 
   if not plugin_exists(plugin) then 
-    return "Plugin doesn't exists" 
+    return "پلاگین یافت نشد" 
   end 
 
   if not _config.disabled_plugin_on_chat then 
@@ -128,12 +128,12 @@ local function disable_plugin_on_chat(receiver, plugin)
   _config.disabled_plugin_on_chat[receiver][plugin] = true 
 
   save_config() 
-  return 'Plugin '..plugin..' disabled on this chat' 
+  return 'پلاگین '..plugin..' در این گروه غیرفعال شد' 
 end 
 
 local function reenable_plugin_on_chat(receiver, plugin) 
   if not _config.disabled_plugin_on_chat then 
-    return 'There aren\'t any disabled plugins' 
+    return 'این پلاگین غیرفعال است' 
   end 
 
   if not _config.disabled_plugin_on_chat[receiver] then 
@@ -146,12 +146,12 @@ local function reenable_plugin_on_chat(receiver, plugin)
 
   _config.disabled_plugin_on_chat[receiver][plugin] = false 
   save_config() 
-  return 'Plugin '..plugin..' is enabled again' 
+  return 'پلاگین '..plugin..' دوباره فعال شد' 
 end 
 
 local function run(msg, matches) 
   -- Show the available plugins 
-  if matches[1] == '!pl' and is_sudo(msg) then --after changed to moderator mode, set only sudo 
+  if matches[1] == '!p' and is_sudo(msg) then --after changed to moderator mode, set only sudo 
     return list_all_plugins() 
   end 
 
@@ -180,7 +180,7 @@ local function run(msg, matches)
 
   -- Disable a plugin 
   if matches[1] == '-' and is_sudo(msg) then --after changed to moderator mode, set only sudo 
-    if matches[2] == 'p' then 
+    if matches[2] == 'plugins' then 
        return 'This plugin can\'t be disabled' 
     end 
     print("disable: "..matches[2]) 
@@ -188,7 +188,7 @@ local function run(msg, matches)
   end 
 
   -- Reload all the plugins! 
-  if matches[1] == '?' and is_sudo(msg) then --after changed to moderator mode, set only sudo 
+  if matches[1] == '*' and is_sudo(msg) then --after changed to moderator mode, set only sudo 
     return reload_plugins(true) 
   end 
 end 
@@ -197,22 +197,20 @@ return {
   description = "Plugin to manage other plugins. Enable, disable or reload.", 
   usage = { 
       moderator = { 
-          "!plugins - [plugin] chat : disable plugin only this chat.", 
-          "!plugins + [plugin] chat : enable plugin only this chat.", 
+          "!plugins disable [plugin] chat : غیرفعال کردن یک پلاگین خاص در یک گروه", 
+          "!plugins enable [plugin] chat : فعال کردن یک پلاگین خاص در گروه", 
           }, 
       sudo = { 
-          "!plugins : list all plugins.", 
-          "!plugins + [plugin] : enable plugin.", 
-          "!plugins - [plugin] : disable plugin.", 
-          "!plugins ? : reloads all plugins." }, 
+          "!plugins :نمایش همه پلاگین ها", 
+          "!plugins enable [plugin] : فعالسازی پلاگین مورد نظر.", 
+          "!plugins disable [plugin] : غیرفعالسازی پلاگین موردنظر", 
+          "!plugins reload : فعال شدن همه پلاگین ها" }, 
           }, 
   patterns = { 
     "^!p$", 
-    "^!p? (+) ([%w_%.%-]+)$", 
-    "^!p? (-) ([%w_%.%-]+)$", 
-    "^!p? (+) ([%w_%.%-]+) (chat)", 
-    "^!p? (-) ([%w_%.%-]+) (chat)", 
-    "^!p? (?)$" }, 
+    "^!p (+) ([%w_%.%-]+)$", 
+    "^!p (-) ([%w_%.%-]+)$", 
+    "^!p (*)$" }, 
   run = run, 
   moderated = true, -- set to moderator mode 
   --privileged = true 
