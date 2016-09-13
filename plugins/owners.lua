@@ -566,7 +566,7 @@ local function run(msg, matches)
 			data[tostring(target)][data_cat] = about_text
 			save_data(_config.moderation.data, data)
 			savelog(matches[2], name.." ["..msg.from.id.."] has changed SuperGroup description to ["..matches[3].."]")
-			return "Description has been set for ["..matches[2]..']'
+			return ".Description has been set for ["..matches[2]..']'
 		end
     end
 	
