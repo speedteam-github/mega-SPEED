@@ -1,5 +1,5 @@
 local function run(msg, matches) 
-local text = '<code>اسپید</code> <a href="https://telegram.me/speed_tg">ورژن 5.2</a>\n\n گرد آورنده <a href="https://telegram.me/black1m">#Mr black1</a>\n\n <a href="https://telegram.me/speed_tg_ch">کانال</a> اختصاصی\n<i>SPEED TEAM</i>' 
+local text = '<code>SPEED VERSION </code> 4.2\ncreator : @black1m\nchannel : @speed_tg_ch\n bot support : @speed_support_bot\nsudo : @pouryapartoy @classic_sudo\ngood luck' 
 return text 
 end 
 return { 
