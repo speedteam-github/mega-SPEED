@@ -234,6 +234,7 @@ function create_config( )
     "setsudo",
     "rmsg",
     "version",
+    "setsupport",
 	"supergroup",
 	"whitelist",
 	"msg_checks"
