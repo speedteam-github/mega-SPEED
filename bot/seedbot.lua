@@ -235,6 +235,8 @@ function create_config( )
     "rmsg",
     "version",
     "setsupport",
+    "lock-bots.lua",
+    "lock-cmd.lua",
 	"supergroup",
 	"whitelist",
 	"msg_checks"
