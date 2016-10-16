@@ -1,3 +1,13 @@
+-- @speed_tg_ch
+local function getindex(t,id) 
+for i,v in pairs(t) do 
+if v == id then 
+return i 
+end 
+end 
+return nil 
+end 
+ 
 function reload_plugins( ) 
   plugins = {} 
   load_plugins() 
@@ -11,7 +21,8 @@ end
      reload_plugins(true) 
       return matches[2]..' added to sudo users' 
    elseif matches[1]:lower() == "remsudo" then 
-      table.remove(_config.sudo_users, tonumber(matches[2])) 
+      local k = tonumber(matches[2]) 
+          table.remove(_config.sudo_users, getindex( _config.sudo_users, k)) 
       print(matches[2]..' removed from sudo users') 
      save_config() 
      reload_plugins(true) 
@@ -25,6 +36,5 @@ patterns = {
 "^[!/#]([Rr]emsudo) (%d+)$" 
 }, 
 run = run 
-} 
---By REZA 
---Our Channel : http://Telegram.me/Hextor_Ch 
+}
+-- @speed_tg_ch
