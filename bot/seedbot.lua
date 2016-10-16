@@ -235,8 +235,8 @@ function create_config( )
     "rmsg",
     "version",
     "setsupport",
-    "lock-bots.lua",
-    "lock-cmd.lua",
+    "lock-bots",
+    "lock-cmd",
 	"supergroup",
 	"whitelist",
 	"msg_checks"
@@ -246,7 +246,7 @@ function create_config( )
     about_text = [[speed v5.2]],
     help_text_realm = [[ ]],
     help_text = [[ ]],
-	help_text_super =[[ ]],
+	help_text_super =[[no help]],
   }
   serialize_to_file(config, './data/config.lua')
   print('saved config into ./data/config.lua')
