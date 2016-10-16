@@ -170,7 +170,7 @@ local support_id = msg.from.id
     end 
     return ban_list(chat_id) 
   end 
-  if matches[1]:lower() == 'ban' then-- /ban 
+  if matches[1]:lower() == 'بن' then-- /ban 
     if type(msg.reply_id)~="nil" and is_momod(msg) then 
       if is_admin1(msg) then 
       msgr = get_message(msg.reply_id,ban_by_reply_admins, false) 
@@ -207,7 +207,7 @@ local support_id = msg.from.id
     end 
   end 
 
-  if matches[1]:lower() == 'unban' then -- /unban 
+  if matches[1]:lower() == 'انبن' then -- /unban 
     if type(msg.reply_id)~="nil" and is_momod(msg) then 
       local msgr = get_message(msg.reply_id,unban_by_reply, false) 
     end 
@@ -331,9 +331,9 @@ return {
     "^[/!#]([Gg]banlist)$", 
    "^[/!#]([Kk]ickme)", 
     "^[/!#]([Kk]ick)$", 
-   "^[/!#]([Bb]an)$", 
-    "^[/!#]([Bb]an) (.*)$", 
-    "^[/!#]([Uu]nban) (.*)$", 
+   "^[/!#](بن)$", 
+    "^[/!#](بن) (.*)$", 
+    "^[/!#](انبن) (.*)$", 
     "^[/!#]([Uu]nbanall) (.*)$", 
     "^[/!#]([Uu]nbanall)$", 
     "^[/!#]([Kk]ick) (.*)$", 
