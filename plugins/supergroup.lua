@@ -229,34 +229,6 @@ local function unlock_group_fosh(msg, data, target)
   end
 end
 
-local function lock_group_cmd(msg, data, target)
-  if not is_momod(msg) then
-    return
-  end
-  local group_cmd_lock = data[tostring(target)]['settings']['lock_cmd']
-  if group_cmd_lock == 'yes' then
-    return reply_msg(msg.id,"> <i> cmd posting is #already locked </i> ", ok_cb, false)
-  else
-    data[tostring(target)]['settings']['lock_cmd'] = 'yes'
-    save_data(_config.moderation.data, data)
-    return reply_msg(msg.id,"> <i> cmd posting has been #locked </i> ", ok_cb, false)
-  end
-end
-
-local function unlock_group_cmd(msg, data, target)
-  if not is_momod(msg) then
-    return
-  end
-  local group_cmd_lock = data[tostring(target)]['settings']['lock_cmd']
-  if group_cmd_lock == 'no' then
-    return reply_msg(msg.id,"> <i> cmd posting is #not locked </i> ", ok_cb, false)
-  else
-    data[tostring(target)]['settings']['lock_cmd'] = 'no'
-    save_data(_config.moderation.data, data)
-    return reply_msg(msg.id,"> <i> cmd posting has been #unlocked </i> ", ok_cb, false)
-  end
-end
-
 local function lock_group_spam(msg, data, target)
   if not is_momod(msg) then
     return
@@ -451,34 +423,6 @@ local function unlock_group_fwd(msg, data, target)
     data[tostring(target)]['settings']['lock_fwd'] = 'no'
     save_data(_config.moderation.data, data)
     return reply_msg(msg.id,"> # <i> Forward Msg has been #unlocked </i> ", ok_cb, false)
-  end
-end
--- lock badword Fanction by MehdiHS!
-local function lock_group_badw(msg, data, target)
-  if not is_momod(msg) then
-    return
-  end
-  local group_badw_lock = data[tostring(target)]['settings']['lock_badw']
-  if group_badw_lock == 'yes' then
-    return reply_msg(msg.id,"> # <i> Badwords is #already locked </i> ! ", ok_cb, false)
-  else
-    data[tostring(target)]['settings']['lock_badw'] = 'yes'
-    save_data(_config.moderation.data, data)
-    return reply_msg(msg.id,"> # <i> Badwords Has been #locked! </i> ", ok_cb, false)
-  end
-end
-
-local function unlock_group_badw(msg, data, target)
-  if not is_momod(msg) then
-    return
-  end
-  local group_badw_lock = data[tostring(target)]['settings']['lock_badw']
-  if group_badw_lock == 'no' then
-    return reply_msg(msg.id,"> # <i> Badwords is #already unlocked </i> ", ok_cb, false)
-  else
-    data[tostring(target)]['settings']['lock_badw'] = 'no'
-    save_data(_config.moderation.data, data)
-    return reply_msg(msg.id,"> # <i> Badwords has been #unlocked </i> ", ok_cb, false)
   end
 end
 -- lock emoji Fanction by MehdiHS!
@@ -804,11 +748,6 @@ end
 		end
 end
 	if data[tostring(target)]['settings'] then
-		if not data[tostring(target)]['settings']['lock_badw'] then
-			data[tostring(target)]['settings']['lock_badw'] = 'no'
-		end
-end
-	if data[tostring(target)]['settings'] then
 		if not data[tostring(target)]['settings']['lock_photo'] then
 			data[tostring(target)]['settings']['lock_photo'] = 'no'
 		end
@@ -851,11 +790,6 @@ end
 if data[tostring(target)]['settings'] then
 		if not data[tostring(target)]['settings']['lock_fosh'] then
 			data[tostring(target)]['settings']['lock_fosh'] = 'no'
-		end
-	end
-if data[tostring(target)]['settings'] then
-		if not data[tostring(target)]['settings']['lock_cmd'] then
-			data[tostring(target)]['settings']['lock_cmd'] = 'no'
 		end
 	end
 	local expiretime = redis:hget('expiretime', get_receiver(msg))
@@ -902,7 +836,7 @@ if is_muted(tostring(target), 'Audio: yes') then
  All = 'no'
  end
   local settings = data[tostring(target)]['settings']
-  local text = "<b>Settings Supergroup</b>\n\n<b> » Lock Links</b>: "..settings.lock_link.."\n<b> » Lock Fosh</b> : "..settings.lock_fosh.."\n<b> » Lock Cmd</b> : "..settings.lock_cmd.."\n<b> » Lock Webpage</b>: "..settings.lock_webpage.."\n<b> » Lock Bots</b>: "..bots_protection.."\n<b> » Lock Tag </b>: "..settings.lock_tag.."\n<b> » Lock Emoji</b> "..settings.lock_emoji.."\n<b> » Lock English</b>: "..settings.lock_eng.."\n<b> » Lock Badword</b>: "..settings.lock_badw.."\n<b> » Lock Flood</b>: "..settings.flood.."\n<b> » Flood sensitivity</b>: "..NUM_MSG_MAX.."\n<b> » Lock Spam</b> "..settings.lock_spam.."\n<b> » Lock Contacts</b>: "..settings.lock_contacts.."\n<b> » Lock Arabic/Persian</b>: "..settings.lock_arabic.."\n<b> » Lock Member</b>: "..settings.lock_member.."\n<b> » Lock RTL</b> "..settings.lock_rtl.."\n<b> » Lock Forward</b>: "..settings.lock_fwd.."\n<b> » Lock TGservice</b>: "..settings.lock_tgservice.."\n<b> » Lock Sticker</b>: "..settings.lock_sticker.."\n<b> Other Settings </b>\n<b> » Public</b>: "..settings.public.."\n<b> » Strict Settings</b>: "..settings.strict.."\n<b>MuteList</b>\n » mute #photo "..Photo.."\n » mute #video "..Video.."\n » mute #audio "..Audio.."\n » mute #gifs "..Gifs.."\n » mute #documents "..Documents.."\n » mute #text "..Text.."\n » mute #all "..All.."\n<b> About Group</b>\n<b> » Expire Time</b> : "..expire.." \n<i> » Name: "..msg.to.title.."</i>\n<i> » Id: "..msg.to.id.."</i>\n<code>CHANNEL</code>\n[ @speed_tg_ch ]"
+  local text = "<b>Settings Supergroup</b>\n\n<b> » Lock Links</b>: "..settings.lock_link.."\n<b> » Lock Fosh</b> : "..settings.lock_fosh.."\n<b> » Lock Webpage</b>: "..settings.lock_webpage.."\n<b> » Lock Bots</b>: "..bots_protection.."\n<b> » Lock Tag </b>: "..settings.lock_tag.."\n<b> » Lock Emoji</b> "..settings.lock_emoji.."\n<b> » Lock English</b>: "..settings.lock_eng.."\n<b> » Lock Flood</b>: "..settings.flood.."\n<b> » Flood sensitivity</b>: "..NUM_MSG_MAX.."\n<b> » Lock Spam</b> "..settings.lock_spam.."\n<b> » Lock Contacts</b>: "..settings.lock_contacts.."\n<b> » Lock Arabic/Persian</b>: "..settings.lock_arabic.."\n<b> » Lock Member</b>: "..settings.lock_member.."\n<b> » Lock RTL</b> "..settings.lock_rtl.."\n<b> » Lock Forward</b>: "..settings.lock_fwd.."\n<b> » Lock TGservice</b>: "..settings.lock_tgservice.."\n<b> » Lock Sticker</b>: "..settings.lock_sticker.."\n<b> Other Settings </b>\n<b> » Public</b>: "..settings.public.."\n<b> » Strict Settings</b>: "..settings.strict.."\n<b>MuteList</b>\n » mute #photo "..Photo.."\n » mute #video "..Video.."\n » mute #audio "..Audio.."\n » mute #gifs "..Gifs.."\n » mute #documents "..Documents.."\n » mute #text "..Text.."\n » mute #all "..All.."\n<b> About Group</b>\n<b> » Expire Time</b> : "..expire.." \n<i> » Name: "..msg.to.title.."</i>\n<i> » Id: "..msg.to.id.."</i>\n<code>CHANNEL</code>\n[ @speed_tg_ch ]"
 if string.match(text, 'yes') then text = string.gsub(text, 'yes', '[ ➕ ]') end
 if string.match(text, 'no') then text = string.gsub(text, 'no', '[ ➖ ]') end
 if string.match(text, '1') then text = string.gsub(text, '1', '1⃣' ) end
@@ -2037,10 +1971,6 @@ local function run(msg, matches)
 				savelog(msg.to.id, name_log.." ["..msg.from.id.."] locked fosh posting ")
 				return lock_group_fosh(msg, data, target)
 			end
-			if matches[2] == 'cmd' then
-				savelog(msg.to.id, name_log.." ["..msg.from.id.."] locked cmd posting ")
-				return lock_group_cmd(msg, data, target)
-			end
 			if matches[2] == 'ربات' then
 				savelog(msg.to.id, name_log.." ["..msg.from.id.."] locked bots")
 				return lock_group_bots(msg, data, target)
@@ -2068,10 +1998,6 @@ local function run(msg, matches)
 			if matches[2] == 'فوروارد' then
 				savelog(msg.to.id, name_log.." ["..msg.from.id.."] locked Forward Msg ")
 				return lock_group_fwd(msg, data, target)
-			end
-			if matches[2] == 'badword' then
-				savelog(msg.to.id, name_log.." ["..msg.from.id.."] locked Badwords ")
-				return lock_group_badw(msg, data, target)
 			end
 			if matches[2] == 'شکلک' then
 				savelog(msg.to.id, name_log.." ["..msg.from.id.."] locked Emoji ")
@@ -2143,10 +2069,6 @@ local function run(msg, matches)
 				savelog(msg.to.id, name_log.." ["..msg.from.id.."] unlocked fosh")
 				return unlock_group_fosh(msg, data, target)
 			end
-			if matches[2] == 'cmd' then
-				savelog(msg.to.id, name_log.." ["..msg.from.id.."] unlocked cmd")
-				return unlock_group_cmd(msg, data, target)
-			end
 			if matches[2] == 'اسپم' then
 				savelog(msg.to.id, name_log.." ["..msg.from.id.."] unlocked spam")
 				return unlock_group_spam(msg, data, target)
@@ -2178,10 +2100,6 @@ local function run(msg, matches)
 			if matches[2] == 'فوورارد' then
 				savelog(msg.to.id, name_log.." ["..msg.from.id.."] unlocked Forward Msg")
 				return unlock_group_fwd(msg, data, target)
-			end
-			if matches[2] == 'badword' then
-				savelog(msg.to.id, name_log.." ["..msg.from.id.."] unlocked Badwords")
-				return unlock_group_badw(msg, data, target)
 			end
 			if matches[2] == 'photo' then
 				savelog(msg.to.id, name_log.." ["..msg.from.id.."] unlocked photo")
